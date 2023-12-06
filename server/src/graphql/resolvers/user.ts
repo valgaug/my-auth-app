@@ -4,6 +4,7 @@ import { QueryResolvers, MutationResolvers } from '../../generated/graphql';
 import jwt from 'jsonwebtoken';
 import { AuthenticationError } from 'apollo-server-errors';
 import dotenv from 'dotenv';
+import { authenticate } from '../../middleware/authMiddleware';
 
 dotenv.config();
 
@@ -12,7 +13,8 @@ const maxLoginAttempts = 5;
 const jwtSecret = process.env.JWT_SECRET as jwt.Secret;
 
 const queryResolvers: QueryResolvers = {
-  getUser: async (_, { email }) => {
+  getUser: async (_, { email }, context) => {
+    authenticate(context);
     return await User.findOne({ email });
   },
 };
