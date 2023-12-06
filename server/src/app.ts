@@ -11,8 +11,8 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// Load GraphQL type definitions from .graphql file
-const typeDefs = loadSchemaSync(join(__dirname, './graphql/schema.graphql'), {
+// Load GraphQL type definitions from all .graphql files in the 'graphql' directory
+const typeDefs = loadSchemaSync(join(__dirname, './graphql/**/*.graphql'), {
   loaders: [new GraphQLFileLoader()],
 });
 
