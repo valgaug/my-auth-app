@@ -1,4 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const typeDefs = gql`
   type Query {
