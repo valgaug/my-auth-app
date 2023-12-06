@@ -3,6 +3,7 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
+  blacklistedTokens: [String]
 }
 
 type AuthPayload {
@@ -17,5 +18,5 @@ type Query {
 type Mutation {
   createUser(firstName: String!, lastName: String!, email: String!, password: String!): User
   loginUser(email: String!, password: String!): AuthPayload
-  logoutUser(userId: ID!): Boolean
+  logoutUser(userId: ID!, token: String!): Boolean
 }

@@ -79,9 +79,9 @@ const mutationResolvers: MutationResolvers = {
     };
   },
 
-  logoutUser: async (_, { userId }) => {
+  logoutUser: async (_, { userId, token }) => {
     try {
-      // to do: invalidate token
+      await User.findByIdAndUpdate(userId, { $push: { blacklistedTokens: token } });
       return true;
     } catch (error) {
       if (error instanceof Error) {

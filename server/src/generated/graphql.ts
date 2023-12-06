@@ -45,6 +45,7 @@ export type MutationLoginUserArgs = {
 
 
 export type MutationLogoutUserArgs = {
+  token: Scalars['String']['input'];
   userId: Scalars['ID']['input'];
 };
 
@@ -60,6 +61,7 @@ export type QueryGetUserArgs = {
 
 export type User = {
   __typename?: 'User';
+  blacklistedTokens?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
   id?: Maybe<Scalars['ID']['output']>;
@@ -166,7 +168,7 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'email' | 'firstName' | 'lastName' | 'password'>>;
   loginUser?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginUserArgs, 'email' | 'password'>>;
-  logoutUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationLogoutUserArgs, 'userId'>>;
+  logoutUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationLogoutUserArgs, 'token' | 'userId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -174,6 +176,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  blacklistedTokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
