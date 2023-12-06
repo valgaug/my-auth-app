@@ -19,10 +19,12 @@ const SignUp: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        '& .MuiTextField-root, .MuiButton-root': { m: 1, width: '25ch' },
+        '& .MuiTextField-root, .MuiButton-root': { m: 1, width: '28ch' },
       }}
     >
-      <TextField label='Username' variant='outlined' />
+      <TextField label='First Name' variant='outlined' />
+      <TextField label='Last Name' variant='outlined' />
+      <TextField label='Email' variant='outlined' />
       <TextField label='Password' type='password' variant='outlined' />
       <TextField label='Confirm Password' type='password' variant='outlined' />
       <Button onClick={handleSignUp} variant='contained'>

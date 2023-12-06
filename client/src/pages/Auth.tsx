@@ -26,7 +26,7 @@ const Auth: React.FC = () => {
         '& .MuiTextField-root, .MuiButton-root': { m: 1, width: '25ch' },
       }}
     >
-      <TextField label='Username' variant='outlined' />
+      <TextField label='Email' variant='outlined' />
       <TextField label='Password' type='password' variant='outlined' />
       <Button onClick={handleLogin} variant='contained'>
         Login
