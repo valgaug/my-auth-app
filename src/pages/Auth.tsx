@@ -1,14 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/authSlice';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
-    // Placeholder for login logic
+    dispatch(login());
     navigate('/');
   };
 

@@ -8,7 +8,6 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSignUp = () => {
-    // Placeholder for sign-up logic
     navigate('/auth');
   };
 
