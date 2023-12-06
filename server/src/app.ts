@@ -1,24 +1,31 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+import { loadSchemaSync } from '@graphql-tools/load';
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
+import { join } from 'path';
 import connectDB from './config/db';
-// import { typeDefs } from './graphql/typeDefs';
-// import { resolvers } from './graphql/resolvers';
+import { resolvers } from './graphql/resolvers';
 
 const app = express();
 
 // Connect to MongoDB
 connectDB();
 
-// Apollo Server setup
-// const server = new ApolloServer({ typeDefs, resolvers });
-
-app.use(express.json());
-
-// Applying the Apollo GraphQL middleware and setting the path to '/graphql'
-// server.applyMiddleware({ app, path: '/graphql' });
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+// Load GraphQL type definitions from .graphql file
+const typeDefs = loadSchemaSync(join(__dirname, './graphql/schema.graphql'), {
+  loaders: [new GraphQLFileLoader()],
 });
+
+// Apollo Server setup
+const server = new ApolloServer({ typeDefs, resolvers });
+
+// Start the server
+(async () => {
+  await server.start();
+  app.use(express.json());
+
+  // Applying the Apollo GraphQL middleware and setting the path to '/graphql'
+  server.applyMiddleware({ app, path: '/graphql' });
+})();
 
 export default app;
