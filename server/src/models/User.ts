@@ -1,3 +1,4 @@
+// FILE 2
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -17,6 +18,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  loginAttempts: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 
