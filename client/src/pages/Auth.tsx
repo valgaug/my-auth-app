@@ -36,6 +36,7 @@ const Auth: React.FC = () => {
       const { data } = await loginUser({ variables: { email, password } });
       if (data) {
         dispatch(login());
+        localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('token', data.loginUser.token);
         navigate('/');
       }

@@ -18,6 +18,7 @@ const Home: React.FC = () => {
   const handleLogout = async () => {
     try {
       setIsLoggingOut(true);
+      localStorage.removeItem('isAuthenticated');
       const token = localStorage.getItem('token');
       if (token) {
         await logoutUser({ variables: { token } });
