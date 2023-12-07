@@ -53,7 +53,6 @@ const Home: React.FC = () => {
       <Button onClick={handleLogout} variant='contained' disabled={loading || isLoggingOut}>
         Logout
       </Button>
-      {error && <p>Error during logout: {error.message}</p>}
     </Box>
   );
 };
