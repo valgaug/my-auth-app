@@ -8,8 +8,6 @@ import Home from './pages/Home';
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
-  console.log(isAuthenticated);
-
   return (
     <Routes>
       <Route path='/auth' element={<Auth />} />
