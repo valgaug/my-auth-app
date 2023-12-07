@@ -36,7 +36,7 @@ const server = new ApolloServer({ typeDefs, resolvers });
 
   app.use(express.json());
 
-  // Applying the Apollo GraphQL middleware and setting the path to '/graphql'
+  // Applying the Apollo GraphQL middleware
   server.applyMiddleware({ app, path: '/graphql' });
 
   // Define a root route
