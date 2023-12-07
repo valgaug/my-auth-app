@@ -1,11 +1,12 @@
-import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
 import Auth from './pages/Auth';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 
 function App() {
-  const isAuthenticated = true; // Placeholder for authentication status
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
   return (
     <Routes>
