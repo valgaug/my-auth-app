@@ -102,8 +102,10 @@ const mutationResolvers: MutationResolvers = {
     };
   },
 
-  logoutUser: async (_, { userId, token }) => {
+  logoutUser: async (_, { token }) => {
     try {
+      const decoded = jwt.verify(token, jwtSecret) as { userId: string };
+      const userId = decoded.userId;
       await User.findByIdAndUpdate(userId, { $push: { blacklistedTokens: token } });
       return true;
     } catch (error) {
