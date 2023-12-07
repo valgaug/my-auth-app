@@ -5,23 +5,10 @@ import { login } from '../store/authSlice';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import Spinner from '../components/spinner';
 import { isValidEmail } from '../helpers/validationHelpers';
-
-const LOGIN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      token
-      user {
-        id
-        firstName
-        lastName
-        email
-      }
-    }
-  }
-`;
+import { LOGIN_USER } from '../graphql/loginUser';
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();

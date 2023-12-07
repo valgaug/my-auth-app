@@ -5,20 +5,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import Spinner from '../components/spinner';
 import { isValidEmail, doPasswordsMatch } from '../helpers/validationHelpers';
-
-const CREATE_USER = gql`
-  mutation CreateUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-    createUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
+import { CREATE_USER } from '../graphql/createUser';
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();

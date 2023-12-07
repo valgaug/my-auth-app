@@ -4,20 +4,15 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import Spinner from '../components/spinner';
 import { Typography } from '@mui/material';
-
-const LOGOUT_USER = gql`
-  mutation LogoutUser($token: String!) {
-    logoutUser(token: $token)
-  }
-`;
+import { LOGOUT_USER } from '../graphql/logoutUser';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [logoutUser, { loading, error }] = useMutation(LOGOUT_USER);
+  const [logoutUser, { loading }] = useMutation(LOGOUT_USER);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
