@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { gql, useMutation } from '@apollo/client';
+import Spinner from '../components/spinner';
 
 const LOGIN_USER = gql`
   mutation LoginUser($email: String!, $password: String!) {
@@ -26,7 +27,7 @@ const Auth: React.FC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
+  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
 
   const handleLogin = async () => {
     try {
@@ -40,6 +41,10 @@ const Auth: React.FC = () => {
       console.error('Error logging in:', error);
     }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <Box

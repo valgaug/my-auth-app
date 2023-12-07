@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { gql, useMutation } from '@apollo/client';
+import Spinner from '../components/spinner'; // Import Spinner
 
 const CREATE_USER = gql`
   mutation CreateUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
@@ -23,7 +24,7 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+  const [createUser, { loading, error }] = useMutation(CREATE_USER);
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
@@ -39,6 +40,10 @@ const SignUp: React.FC = () => {
       console.error('Error signing up:', error);
     }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <Box
