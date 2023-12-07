@@ -51,24 +51,45 @@ const mutationResolvers: MutationResolvers = {
   loginUser: async (_, { email, password }) => {
     const user = await User.findOne({ email });
 
-    if (!user) {
-      throw new AuthenticationError('User not found');
+    const now = new Date();
+
+    if (user && user.lockoutUntil && user.lockoutUntil > now) {
+      throw new AuthenticationError('Try again later.');
     }
 
-    if (user.loginAttempts > maxLoginAttempts) {
-      throw new AuthenticationError('Account locked due to multiple failed login attempts. Please try again later.');
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      if (user) {
+        const loginAttempts = user.loginAttempts + 1;
+
+        if (loginAttempts >= maxLoginAttempts) {
+          const lockoutDuration = 2;
+          await User.updateOne(
+            { email },
+            {
+              $set: {
+                loginAttempts,
+                lockoutUntil: new Date(now.getTime() + lockoutDuration * 60000),
+              },
+            }
+          );
+          throw new AuthenticationError('Try again later.');
+        } else {
+          await User.updateOne(
+            { email },
+            {
+              $inc: { loginAttempts: 1 },
+              $set: { lastFailedLoginAttempt: now },
+            }
+          );
+        }
+      }
+
+      throw new AuthenticationError('Email or Password is invalid');
     }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      await User.updateOne({ email }, { $inc: { loginAttempts: 1 } });
-      throw new AuthenticationError('Invalid password');
-    }
-
-    const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
 
     await User.updateOne({ email }, { loginAttempts: 0 });
+
+    const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
 
     return {
       token,

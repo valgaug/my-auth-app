@@ -25,7 +25,16 @@ const userSchema = new mongoose.Schema({
   },
   blacklistedTokens: {
     type: [String],
+    required: false,
     default: [],
+  },
+  lastFailedLoginAttempt: {
+    type: Date,
+    required: false,
+  },
+  lockoutUntil: {
+    type: Date,
+    required: false,
   },
 });
 

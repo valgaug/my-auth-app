@@ -4,6 +4,9 @@ type User {
   lastName: String!
   email: String!
   blacklistedTokens: [String]
+  loginAttempts: Int
+  lastFailedLoginAttempt: String
+  lockoutUntil: String
 }
 
 type AuthPayload {

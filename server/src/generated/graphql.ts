@@ -65,7 +65,10 @@ export type User = {
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
   id?: Maybe<Scalars['ID']['output']>;
+  lastFailedLoginAttempt?: Maybe<Scalars['String']['output']>;
   lastName: Scalars['String']['output'];
+  lockoutUntil?: Maybe<Scalars['String']['output']>;
+  loginAttempts?: Maybe<Scalars['Int']['output']>;
 };
 
 
@@ -142,6 +145,7 @@ export type ResolversTypes = {
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -153,6 +157,7 @@ export type ResolversParentTypes = {
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -180,7 +185,10 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  lastFailedLoginAttempt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lockoutUntil?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  loginAttempts?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
