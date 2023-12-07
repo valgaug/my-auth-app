@@ -62,7 +62,7 @@ const mutationResolvers: MutationResolvers = {
         const loginAttempts = user.loginAttempts + 1;
 
         if (loginAttempts >= maxLoginAttempts) {
-          const lockoutDuration = 2;
+          const lockoutDuration = 2; // 2min
           await User.updateOne(
             { email },
             {

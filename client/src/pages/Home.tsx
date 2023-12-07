@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { gql, useMutation } from '@apollo/client';
 import Spinner from '../components/spinner';
+import { Typography } from '@mui/material';
 
 const LOGOUT_USER = gql`
   mutation LogoutUser($token: String!) {
@@ -49,7 +50,9 @@ const Home: React.FC = () => {
         height: '100vh',
       }}
     >
-      <h1>Welcome to the Home Page</h1>
+      <Typography align='center' sx={{ padding: '20px' }} variant='h5' fontWeight='bold'>
+        Welcome to the Home Page
+      </Typography>
       <Button onClick={handleLogout} variant='contained' disabled={loading || isLoggingOut}>
         Logout
       </Button>

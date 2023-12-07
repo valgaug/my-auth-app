@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { gql, useMutation } from '@apollo/client';
 import Spinner from '../components/spinner';
 import { isValidEmail, doPasswordsMatch } from '../helpers/validationHelpers';
@@ -68,40 +70,47 @@ const SignUp: React.FC = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        '& .MuiTextField-root, .MuiButton-root': { m: 1, width: '28ch' },
-      }}
-    >
-      <TextField label='First Name' variant='outlined' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-      <TextField label='Last Name' variant='outlined' value={lastName} onChange={(e) => setLastName(e.target.value)} />
-      <TextField
-        error={!!emailError || !!generalError}
-        helperText={emailError || generalError}
-        label='Email'
-        variant='outlined'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField label='Password' type='password' variant='outlined' value={password} onChange={(e) => setPassword(e.target.value)} />
-      <TextField
-        error={!!passwordError}
-        helperText={passwordError}
-        label='Confirm Password'
-        type='password'
-        variant='outlined'
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <Button onClick={handleSignUp} variant='contained' disabled={loading}>
-        Sign Up
-      </Button>
-    </Box>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <IconButton onClick={() => navigate('/auth')} sx={{ margin: '10px', alignSelf: 'flex-start' }}>
+        <ArrowBackIcon />
+      </IconButton>
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          '& .MuiTextField-root, .MuiButton-root': { m: 1, width: '28ch' },
+          overflow: 'auto', // Allows scrolling for smaller screens
+        }}
+      >
+        <TextField label='First Name' variant='outlined' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <TextField label='Last Name' variant='outlined' value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        <TextField
+          error={!!emailError || !!generalError}
+          helperText={emailError || generalError}
+          label='Email'
+          variant='outlined'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField label='Password' type='password' variant='outlined' value={password} onChange={(e) => setPassword(e.target.value)} />
+        <TextField
+          error={!!passwordError}
+          helperText={passwordError}
+          label='Confirm Password'
+          type='password'
+          variant='outlined'
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <Button onClick={handleSignUp} variant='contained' disabled={loading}>
+          Sign Up
+        </Button>
+      </Box>
+    </div>
   );
 };
 
