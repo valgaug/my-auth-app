@@ -32,7 +32,6 @@ const SignUp: React.FC = () => {
     }
     try {
       const { data } = await createUser({ variables: { firstName, lastName, email, password } });
-      console.log('data', data);
       if (data) {
         navigate('/auth');
       }
