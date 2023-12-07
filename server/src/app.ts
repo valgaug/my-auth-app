@@ -5,13 +5,16 @@ import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { join } from 'path';
 import connectDB from './config/db';
 import { resolvers } from './graphql/resolvers';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
-// Load GraphQL type definitions from all .graphql files in the 'graphql' directory
+// Load GraphQL type definitions
 const typeDefs = loadSchemaSync(join(__dirname, './graphql/**/*.graphql'), {
   loaders: [new GraphQLFileLoader()],
 });
@@ -22,10 +25,24 @@ const server = new ApolloServer({ typeDefs, resolvers });
 // Start the server
 (async () => {
   await server.start();
+
+  // Configure CORS using environment variable
+  app.use(
+    cors({
+      origin: process.env.CLIENT_URL,
+      credentials: true,
+    })
+  );
+
   app.use(express.json());
 
   // Applying the Apollo GraphQL middleware and setting the path to '/graphql'
   server.applyMiddleware({ app, path: '/graphql' });
+
+  // Define a root route
+  app.get('/', (req, res) => {
+    res.send('Server is running');
+  });
 })();
 
 export default app;
