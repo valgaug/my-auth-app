@@ -54,7 +54,7 @@ const mutationResolvers: MutationResolvers = {
     const now = new Date();
 
     if (user && user.lockoutUntil && user.lockoutUntil > now) {
-      throw new AuthenticationError('Try again later.');
+      throw new AuthenticationError('Try again later');
     }
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -72,7 +72,7 @@ const mutationResolvers: MutationResolvers = {
               },
             }
           );
-          throw new AuthenticationError('Try again later.');
+          throw new AuthenticationError('Try again later');
         } else {
           await User.updateOne(
             { email },

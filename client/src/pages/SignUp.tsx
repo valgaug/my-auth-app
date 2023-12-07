@@ -4,7 +4,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { gql, useMutation } from '@apollo/client';
-import Spinner from '../components/spinner'; // Import Spinner
+import Spinner from '../components/spinner';
+import { isValidEmail, doPasswordsMatch } from '../helpers/validationHelpers';
 
 const CREATE_USER = gql`
   mutation CreateUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
@@ -24,20 +25,41 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [createUser, { loading, error }] = useMutation(CREATE_USER);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [generalError, setGeneralError] = useState('');
+  const [createUser, { loading }] = useMutation(CREATE_USER, {
+    onError: (error) => {
+      if (error.message.includes('duplicate')) {
+        setGeneralError('User already created');
+      } else {
+        setGeneralError('Error creating user');
+      }
+    },
+  });
 
   const handleSignUp = async () => {
-    if (password !== confirmPassword) {
-      console.error('Passwords do not match');
+    setEmailError('');
+    setPasswordError('');
+    setGeneralError('');
+
+    if (!isValidEmail(email)) {
+      setEmailError('Please enter a valid email address');
       return;
     }
+
+    if (!doPasswordsMatch(password, confirmPassword)) {
+      setPasswordError('Passwords do not match');
+      return;
+    }
+
     try {
       const { data } = await createUser({ variables: { firstName, lastName, email, password } });
       if (data) {
         navigate('/auth');
       }
     } catch (error) {
-      console.error('Error signing up:', error);
+      // Additional error handling if needed
     }
   };
 
@@ -58,9 +80,18 @@ const SignUp: React.FC = () => {
     >
       <TextField label='First Name' variant='outlined' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
       <TextField label='Last Name' variant='outlined' value={lastName} onChange={(e) => setLastName(e.target.value)} />
-      <TextField label='Email' variant='outlined' value={email} onChange={(e) => setEmail(e.target.value)} />
+      <TextField
+        error={!!emailError || !!generalError}
+        helperText={emailError || generalError}
+        label='Email'
+        variant='outlined'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <TextField label='Password' type='password' variant='outlined' value={password} onChange={(e) => setPassword(e.target.value)} />
       <TextField
+        error={!!passwordError}
+        helperText={passwordError}
         label='Confirm Password'
         type='password'
         variant='outlined'
@@ -70,7 +101,6 @@ const SignUp: React.FC = () => {
       <Button onClick={handleSignUp} variant='contained' disabled={loading}>
         Sign Up
       </Button>
-      {error && <p>Error signing up: {error.message}</p>}
     </Box>
   );
 };
