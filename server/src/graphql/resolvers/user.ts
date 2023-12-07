@@ -55,7 +55,7 @@ const mutationResolvers: MutationResolvers = {
       throw new AuthenticationError('User not found');
     }
 
-    if (user.loginAttempts >= maxLoginAttempts) {
+    if (user.loginAttempts > maxLoginAttempts) {
       throw new AuthenticationError('Account locked due to multiple failed login attempts. Please try again later.');
     }
 
